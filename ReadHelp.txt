@@ -1,0 +1,14 @@
+Конструктор сайтов на чистом JavaScript за 2 часа
+https://www.youtube.com/watch?v=0ViiJ8qTCFM
+
+3:23
+index.html
+
+4:32
+Bootstrap from site getbootstrap.com
+
+6:16
+main.css
+
+7:30
+
