@@ -10,5 +10,37 @@ Bootstrap from site getbootstrap.com
 6:16
 main.css
 
-7:30
+9:18
+index.js
+
+30:14
+Parceljs.org
+
+31:56
+npm init
+
+33:24
+npm install parcel-bundler --save-dev
+
+34:41
+src
+
+38:09
+model.js
+
+39:42
+styles
+
+40:43
+Pacel -   "build": "parcel build ./src/index.html --no-source-maps"
+
+43:55
+value from object by key
+
+48:59
+utils.js
+
+53:37
+
+
 
