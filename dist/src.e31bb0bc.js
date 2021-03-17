@@ -133,7 +133,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var model = [{
   type: "title",
-  value: "Hello World from JS!"
+  value: "Pure JavaScript Site Constructor",
+  options: {
+    tag: "h2",
+    // styles: `background:linear-gradient(to right, #ff0099, #493240); color: #fff; text-align: center; padding: 1.5rem`,
+    styles: {
+      background: "linear-gradient(to right, #ff0099, #493240)",
+      color: "#fff",
+      padding: "1.5rem",
+      "text-align": "center"
+    }
+  }
 }, {
   type: "text",
   value: "Here will be some text"
@@ -153,13 +163,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.row = row;
 exports.col = col;
+exports.css = css;
 
 function row(content) {
-  return "<div class = \"row\">".concat(content, "</div>");
+  var styles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  return "<div class = \"row\" style=\"".concat(styles, "\">").concat(content, "</div>");
 }
 
 function col(content) {
   return "<div class = \"col-sm\">".concat(content, "</div>");
+}
+
+function css() {
+  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  // const keys = Object.keys(styles);
+  // const array = keys.map((key) => {
+  //   return `${key}:${styles[key]}`;
+  // });
+  // return array.join(";");
+  //---------------
+  // return Object.keys(styles)
+  //   .map((key) => `${key}:${styles[key]}`)
+  //   .join(";");
+  //-------------
+  var toString = function toString(key) {
+    return "".concat(key, ":").concat(styles[key]);
+  };
+
+  return Object.keys(styles).map(toString).join(";");
 }
 },{}],"templates.js":[function(require,module,exports) {
 "use strict";
@@ -179,7 +211,13 @@ function title(block) {
   //         </div>
   //       </div>
   //   `;
-  return (0, _utils.row)((0, _utils.col)("<h1>".concat(block.value, "</h1>")));
+  // const tag = block.options.tag ? block.options.tag : "h1"; //const tag = block.options.tag ?? "h1";
+  // const styles = block.options.styles;
+  var _block$options = block.options,
+      _block$options$tag = _block$options.tag,
+      tag = _block$options$tag === void 0 ? "h1" : _block$options$tag,
+      styles = _block$options.styles;
+  return (0, _utils.row)((0, _utils.col)("<".concat(tag, ">").concat(block.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
 }
 
 function text(block) {
@@ -296,7 +334,7 @@ var _templates = require("./templates");
 
 require("./styles/main.css");
 
-var $site = document.querySelector("#site"); // The variable $site is a simple variable, but came from the DOM.
+var $site = document.querySelector("#site"); // The variable $site is a simple variable, but came from the DOM
 
 _model.model.forEach(function (block) {
   // let html = "";
@@ -344,7 +382,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64583" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52415" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
