@@ -40,8 +40,10 @@ value from object by key
 48:59
 utils.js
 
+1:11:28
+Class
 
-1:06:50
+1:16:21
+SOLID
 
-
-
+1:20:36

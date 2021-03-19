@@ -119,6 +119,111 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"assets/image.png":[function(require,module,exports) {
 module.exports = "/image.90ac9039.png";
+},{}],"classes/blocks.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TextBlock = exports.ColumnsBlock = exports.ImageBlock = exports.TitleBlock = void 0;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Block = function Block(type, value, options) {
+  _classCallCheck(this, Block);
+
+  this.type = type;
+  this.value = value;
+  this.options = options;
+};
+
+var TitleBlock =
+/*#__PURE__*/
+function (_Block) {
+  _inherits(TitleBlock, _Block);
+
+  var _super = _createSuper(TitleBlock);
+
+  function TitleBlock(value, options) {
+    _classCallCheck(this, TitleBlock);
+
+    return _super.call(this, "title", value, options);
+  }
+
+  return TitleBlock;
+}(Block);
+
+exports.TitleBlock = TitleBlock;
+
+var ImageBlock =
+/*#__PURE__*/
+function (_Block2) {
+  _inherits(ImageBlock, _Block2);
+
+  var _super2 = _createSuper(ImageBlock);
+
+  function ImageBlock(value, options) {
+    _classCallCheck(this, ImageBlock);
+
+    return _super2.call(this, "image", value, options);
+  }
+
+  return ImageBlock;
+}(Block);
+
+exports.ImageBlock = ImageBlock;
+
+var ColumnsBlock =
+/*#__PURE__*/
+function (_Block3) {
+  _inherits(ColumnsBlock, _Block3);
+
+  var _super3 = _createSuper(ColumnsBlock);
+
+  function ColumnsBlock(value, options) {
+    _classCallCheck(this, ColumnsBlock);
+
+    return _super3.call(this, "columns", value, options);
+  }
+
+  return ColumnsBlock;
+}(Block);
+
+exports.ColumnsBlock = ColumnsBlock;
+
+var TextBlock =
+/*#__PURE__*/
+function (_Block4) {
+  _inherits(TextBlock, _Block4);
+
+  var _super4 = _createSuper(TextBlock);
+
+  function TextBlock(value, options) {
+    _classCallCheck(this, TextBlock);
+
+    return _super4.call(this, "text", value, options);
+  }
+
+  return TextBlock;
+}(Block);
+
+exports.TextBlock = TextBlock;
 },{}],"model.js":[function(require,module,exports) {
 "use strict";
 
@@ -129,33 +234,46 @@ exports.model = void 0;
 
 var _image = _interopRequireDefault(require("./assets/image.png"));
 
+var _blocks = require("./classes/blocks");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var model = [{
-  type: "title",
-  value: "Pure JavaScript Site Constructor",
-  options: {
-    tag: "h2",
-    // styles: `background:linear-gradient(to right, #ff0099, #493240); color: #fff; text-align: center; padding: 1.5rem`,
-    styles: {
-      background: "linear-gradient(to right, #ff0099, #493240)",
-      color: "#fff",
-      padding: "1.5rem",
-      "text-align": "center"
-    }
+var text = "Cool Video. <a href='https://youtu.be/0ViiJ8qTCFM' target='_blank'> Cool Video.";
+var model = [new _blocks.TitleBlock("Pure JavaScript Site Constructor", {
+  tag: "h2",
+  styles: {
+    background: "linear-gradient(to right, #ff0099, #493240)",
+    color: "#fff",
+    padding: "1.5rem",
+    "text-align": "center"
   }
-}, {
-  type: "text",
-  value: "Here will be some text"
-}, {
-  type: "columns",
-  value: ["1111111", "2222222", "3333333"]
-}, {
-  type: "image",
-  value: _image.default
-}];
+}), new _blocks.ImageBlock(_image.default, {
+  styles: {
+    padding: "1.5rem",
+    display: "flex",
+    "justify-content": "center"
+  },
+  imageStyles: {
+    width: "500px",
+    height: "auto"
+  },
+  alt: "Course Image"
+}), new _blocks.ColumnsBlock(["Pure JavaScript Application, without libreris", "SOLID and OOP technology in one course", "JavaScript is essy and learn to create any UI"], {
+  styles: {
+    background: "linear-gradient(to bottom, #8e2de2, #4a00e0)",
+    color: "#fff",
+    padding: "2rem",
+    "font-weigt": "bold"
+  }
+}), new _blocks.TextBlock(text, {
+  styles: {
+    background: "linear-gradient(to right, #ff0099, #493240)",
+    padding: "1rem",
+    "font-weigt": "bold"
+  }
+})];
 exports.model = model;
-},{"./assets/image.png":"assets/image.png"}],"utils.js":[function(require,module,exports) {
+},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"utils.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -204,15 +322,6 @@ exports.templates = void 0;
 var _utils = require("./utils");
 
 function title(block) {
-  // return `
-  //       <div class="row">
-  //         <div class="col-sm">
-  //           <h1>${block.value}</h1>
-  //         </div>
-  //       </div>
-  //   `;
-  // const tag = block.options.tag ? block.options.tag : "h1"; //const tag = block.options.tag ?? "h1";
-  // const styles = block.options.styles;
   var _block$options = block.options,
       _block$options$tag = _block$options.tag,
       tag = _block$options$tag === void 0 ? "h1" : _block$options$tag,
@@ -221,29 +330,21 @@ function title(block) {
 }
 
 function text(block) {
-  // return `
-  //       <div class="row">
-  //         <div class="col-sm">
-  //           <p>${block.value}</p>
-  //         </div>
-  //       </div>
-  //     `;
-  return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>")));
+  return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>"), (0, _utils.css)(block.options.styles)));
 }
 
 function columns(block) {
-  // // const html = block.value.map((item) => `<div class='col-sm'>${item}</div>`);
-  // // return `<div class="row"> ${html.join("")}</div>`;
-  // const html = block.value.map((item) => col(item));
   var html = block.value.map(_utils.col).join("");
-  return (0, _utils.row)(html);
+  return (0, _utils.row)(html, (0, _utils.css)(block.options.styles));
 }
 
 function image(block) {
-  return (0, _utils.row)("<img src=\"".concat(block.value, "\"/>")); //  `
-  // <div class='row'>
-  //     <img src ="${block.value}" ></img>
-  // <div>`;
+  var _block$options2 = block.options,
+      is = _block$options2.imageStyles,
+      _block$options2$alt = _block$options2.alt,
+      alt = _block$options2$alt === void 0 ? "" : _block$options2$alt,
+      styles = _block$options2.styles;
+  return (0, _utils.row)("<img src=\"".concat(block.value, "\" alt=\"").concat(alt, "\" style=\"").concat((0, _utils.css)(is), " />"), (0, _utils.css)(styles));
 }
 
 var templates = {
@@ -382,7 +483,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52415" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52561" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
