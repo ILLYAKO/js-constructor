@@ -119,6 +119,44 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"assets/image.png":[function(require,module,exports) {
 module.exports = "/image.90ac9039.png";
+},{}],"utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.row = row;
+exports.col = col;
+exports.css = css;
+
+function row(content) {
+  var styles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  return "<div class = \"row\" style=\"".concat(styles, "\">").concat(content, "</div>");
+}
+
+function col(content) {
+  return "<div class = \"col-sm\">".concat(content, "</div>");
+}
+
+function css() {
+  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  // const keys = Object.keys(styles);
+  // const array = keys.map((key) => {
+  //   return `${key}:${styles[key]}`;
+  // });
+  // return array.join(";");
+  //---------------
+  // return Object.keys(styles)
+  //   .map((key) => `${key}:${styles[key]}`)
+  //   .join(";");
+  //-------------
+  var toString = function toString(key) {
+    return "".concat(key, ":").concat(styles[key]);
+  };
+
+  return Object.keys(styles).map(toString).join(";");
+}
 },{}],"classes/blocks.js":[function(require,module,exports) {
 "use strict";
 
@@ -126,6 +164,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TextBlock = exports.ColumnsBlock = exports.ImageBlock = exports.TitleBlock = void 0;
+
+var _utils = require("../utils");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -145,13 +185,29 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Block = function Block(type, value, options) {
-  _classCallCheck(this, Block);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  this.type = type;
-  this.value = value;
-  this.options = options;
-};
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Block =
+/*#__PURE__*/
+function () {
+  function Block(value, options) {
+    _classCallCheck(this, Block);
+
+    this.value = value;
+    this.options = options;
+  }
+
+  _createClass(Block, [{
+    key: "toHTML",
+    value: function toHTML() {
+      throw new Error("toHTML function should be initialized.");
+    }
+  }]);
+
+  return Block;
+}();
 
 var TitleBlock =
 /*#__PURE__*/
@@ -163,8 +219,19 @@ function (_Block) {
   function TitleBlock(value, options) {
     _classCallCheck(this, TitleBlock);
 
-    return _super.call(this, "title", value, options);
+    return _super.call(this, value, options);
   }
+
+  _createClass(TitleBlock, [{
+    key: "toHTML",
+    value: function toHTML() {
+      var _this$options = this.options,
+          _this$options$tag = _this$options.tag,
+          tag = _this$options$tag === void 0 ? "h1" : _this$options$tag,
+          styles = _this$options.styles;
+      return row((0, _utils.col)("<".concat(tag, ">").concat(this.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
+    }
+  }]);
 
   return TitleBlock;
 }(Block);
@@ -181,8 +248,20 @@ function (_Block2) {
   function ImageBlock(value, options) {
     _classCallCheck(this, ImageBlock);
 
-    return _super2.call(this, "image", value, options);
+    return _super2.call(this, value, options);
   }
+
+  _createClass(ImageBlock, [{
+    key: "toHTML",
+    value: function toHTML() {
+      var _this$options2 = this.options,
+          is = _this$options2.imageStyles,
+          _this$options2$alt = _this$options2.alt,
+          alt = _this$options2$alt === void 0 ? "" : _this$options2$alt,
+          styles = _this$options2.styles;
+      return row("<img src=\"".concat(this.value, "\" alt=\"").concat(alt, "\" style=\"").concat((0, _utils.css)(is), " />"), (0, _utils.css)(styles));
+    }
+  }]);
 
   return ImageBlock;
 }(Block);
@@ -199,8 +278,16 @@ function (_Block3) {
   function ColumnsBlock(value, options) {
     _classCallCheck(this, ColumnsBlock);
 
-    return _super3.call(this, "columns", value, options);
+    return _super3.call(this, value, options);
   }
+
+  _createClass(ColumnsBlock, [{
+    key: "toHTML",
+    value: function toHTML() {
+      var html = this.value.map(_utils.col).join("");
+      return row(html, (0, _utils.css)(this.options.styles));
+    }
+  }]);
 
   return ColumnsBlock;
 }(Block);
@@ -217,14 +304,21 @@ function (_Block4) {
   function TextBlock(value, options) {
     _classCallCheck(this, TextBlock);
 
-    return _super4.call(this, "text", value, options);
+    return _super4.call(this, value, options);
   }
+
+  _createClass(TextBlock, [{
+    key: "toHTML",
+    value: function toHTML() {
+      return row((0, _utils.col)("<p>".concat(this.value, "</p>"), (0, _utils.css)(this.options.styles)));
+    }
+  }]);
 
   return TextBlock;
 }(Block);
 
 exports.TextBlock = TextBlock;
-},{}],"model.js":[function(require,module,exports) {
+},{"../utils":"utils.js"}],"model.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -273,88 +367,7 @@ var model = [new _blocks.TitleBlock("Pure JavaScript Site Constructor", {
   }
 })];
 exports.model = model;
-},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"utils.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.row = row;
-exports.col = col;
-exports.css = css;
-
-function row(content) {
-  var styles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-  return "<div class = \"row\" style=\"".concat(styles, "\">").concat(content, "</div>");
-}
-
-function col(content) {
-  return "<div class = \"col-sm\">".concat(content, "</div>");
-}
-
-function css() {
-  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  // const keys = Object.keys(styles);
-  // const array = keys.map((key) => {
-  //   return `${key}:${styles[key]}`;
-  // });
-  // return array.join(";");
-  //---------------
-  // return Object.keys(styles)
-  //   .map((key) => `${key}:${styles[key]}`)
-  //   .join(";");
-  //-------------
-  var toString = function toString(key) {
-    return "".concat(key, ":").concat(styles[key]);
-  };
-
-  return Object.keys(styles).map(toString).join(";");
-}
-},{}],"templates.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.templates = void 0;
-
-var _utils = require("./utils");
-
-function title(block) {
-  var _block$options = block.options,
-      _block$options$tag = _block$options.tag,
-      tag = _block$options$tag === void 0 ? "h1" : _block$options$tag,
-      styles = _block$options.styles;
-  return (0, _utils.row)((0, _utils.col)("<".concat(tag, ">").concat(block.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
-}
-
-function text(block) {
-  return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>"), (0, _utils.css)(block.options.styles)));
-}
-
-function columns(block) {
-  var html = block.value.map(_utils.col).join("");
-  return (0, _utils.row)(html, (0, _utils.css)(block.options.styles));
-}
-
-function image(block) {
-  var _block$options2 = block.options,
-      is = _block$options2.imageStyles,
-      _block$options2$alt = _block$options2.alt,
-      alt = _block$options2$alt === void 0 ? "" : _block$options2$alt,
-      styles = _block$options2.styles;
-  return (0, _utils.row)("<img src=\"".concat(block.value, "\" alt=\"").concat(alt, "\" style=\"").concat((0, _utils.css)(is), " />"), (0, _utils.css)(styles));
-}
-
-var templates = {
-  title: title,
-  text: text,
-  image: image,
-  columns: columns
-};
-exports.templates = templates;
-},{"./utils":"utils.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -431,31 +444,15 @@ module.hot.accept(reloadCSS);
 
 var _model = require("./model");
 
-var _templates = require("./templates");
-
 require("./styles/main.css");
 
+// import { templates } from "./templates";
 var $site = document.querySelector("#site"); // The variable $site is a simple variable, but came from the DOM
 
 _model.model.forEach(function (block) {
-  // let html = "";
-  // if (block.type === "title") {
-  //   html = title(block);
-  // } else if (block.type === "text") {
-  //   html = text(block);
-  // } else if (block.type === "columns") {
-  //   html = columns(block);
-  // } else if (block.type === "image") {
-  //   html = image(block);
-  // }
-  // $site.insertAdjacentHTML("beforeend", html);
-  var toHTML = _templates.templates[block.type];
-
-  if (toHTML) {
-    $site.insertAdjacentHTML("beforeend", toHTML(block));
-  }
+  $site.insertAdjacentHTML("beforeend", block.toHTML());
 });
-},{"./model":"model.js","./templates":"templates.js","./styles/main.css":"styles/main.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./model":"model.js","./styles/main.css":"styles/main.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -483,7 +480,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52561" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
