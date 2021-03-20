@@ -141,16 +141,6 @@ function col(content) {
 function css() {
   var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  // const keys = Object.keys(styles);
-  // const array = keys.map((key) => {
-  //   return `${key}:${styles[key]}`;
-  // });
-  // return array.join(";");
-  //---------------
-  // return Object.keys(styles)
-  //   .map((key) => `${key}:${styles[key]}`)
-  //   .join(";");
-  //-------------
   var toString = function toString(key) {
     return "".concat(key, ":").concat(styles[key]);
   };
@@ -229,7 +219,7 @@ function (_Block) {
           _this$options$tag = _this$options.tag,
           tag = _this$options$tag === void 0 ? "h1" : _this$options$tag,
           styles = _this$options.styles;
-      return row((0, _utils.col)("<".concat(tag, ">").concat(this.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
+      return (0, _utils.row)((0, _utils.col)("<".concat(tag, ">").concat(this.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
     }
   }]);
 
@@ -259,7 +249,7 @@ function (_Block2) {
           _this$options2$alt = _this$options2.alt,
           alt = _this$options2$alt === void 0 ? "" : _this$options2$alt,
           styles = _this$options2.styles;
-      return row("<img src=\"".concat(this.value, "\" alt=\"").concat(alt, "\" style=\"").concat((0, _utils.css)(is), " />"), (0, _utils.css)(styles));
+      return (0, _utils.row)("<img src=\"".concat(this.value, "\" alt=\"").concat(alt, "\" style=\"").concat((0, _utils.css)(is), " />"), (0, _utils.css)(styles));
     }
   }]);
 
@@ -285,7 +275,7 @@ function (_Block3) {
     key: "toHTML",
     value: function toHTML() {
       var html = this.value.map(_utils.col).join("");
-      return row(html, (0, _utils.css)(this.options.styles));
+      return (0, _utils.row)(html, (0, _utils.css)(this.options.styles));
     }
   }]);
 
@@ -310,7 +300,7 @@ function (_Block4) {
   _createClass(TextBlock, [{
     key: "toHTML",
     value: function toHTML() {
-      return row((0, _utils.col)("<p>".concat(this.value, "</p>"), (0, _utils.css)(this.options.styles)));
+      return (0, _utils.row)((0, _utils.col)("<p>".concat(this.value, "</p>"), (0, _utils.css)(this.options.styles)));
     }
   }]);
 
@@ -367,7 +357,85 @@ var model = [new _blocks.TitleBlock("Pure JavaScript Site Constructor", {
   }
 })];
 exports.model = model;
-},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"classes/site.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Site = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Site =
+/*#__PURE__*/
+function () {
+  function Site(selector) {
+    _classCallCheck(this, Site);
+
+    this.$el = document.querySelector(selector);
+  }
+
+  _createClass(Site, [{
+    key: "render",
+    value: function render(model) {
+      var _this = this;
+
+      model.forEach(function (block) {
+        _this.$el.insertAdjacentHTML("beforeend", block.toHTML());
+      });
+    }
+  }]);
+
+  return Site;
+}();
+
+exports.Site = Site;
+},{}],"classes/sidebar.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Sidebar = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Sidebar =
+/*#__PURE__*/
+function () {
+  function Sidebar(selector) {
+    _classCallCheck(this, Sidebar);
+
+    this.$el = document.querySelector(selector);
+    this.init();
+  }
+
+  _createClass(Sidebar, [{
+    key: "init",
+    value: function init() {
+      this.$el.insertAdjacentHTML("afterbegin", this.template);
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      return "<h1>template</h1>";
+    }
+  }]);
+
+  return Sidebar;
+}();
+
+exports.Sidebar = Sidebar;
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -444,15 +512,17 @@ module.hot.accept(reloadCSS);
 
 var _model = require("./model");
 
+var _site = require("./classes/site");
+
+var _sidebar = require("./classes/sidebar");
+
 require("./styles/main.css");
 
-// import { templates } from "./templates";
-var $site = document.querySelector("#site"); // The variable $site is a simple variable, but came from the DOM
-
-_model.model.forEach(function (block) {
-  $site.insertAdjacentHTML("beforeend", block.toHTML());
-});
-},{"./model":"model.js","./styles/main.css":"styles/main.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+// const $site = document.querySelector("#site"); // The variable $site is a simple variable, but came from the DOM
+var site = new _site.Site("#site");
+site.render(_model.model);
+var sidebar = new _sidebar.Sidebar("#panel");
+},{"./model":"model.js","./classes/site":"classes/site.js","./classes/sidebar":"classes/sidebar.js","./styles/main.css":"styles/main.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -480,7 +550,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59548" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
