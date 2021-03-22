@@ -128,6 +128,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.row = row;
 exports.col = col;
 exports.css = css;
+exports.block = block;
 
 function row(content) {
   var styles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -146,6 +147,10 @@ function css() {
   };
 
   return Object.keys(styles).map(toString).join(";");
+}
+
+function block(type) {
+  return "\n  <form name=\"".concat(type, "\">\n    <h5>").concat(type, "</h5>\n    <div class=\"form-group\">\n      <input class=\"form-control form-control-sm\" name=\"value\" placeholder=\"value\">\n    </div>\n    <div class=\"form-group\">\n      <input class=\"form-control form-control-sm\" name=\"styles\" placeholder=\"styles\">\n    </div>\n    <button type=\"submit\" class=\"btn btn-primary btn-sm\">Add</button>  \n  </form>\n  <hr />  \n  ");
 }
 },{}],"classes/blocks.js":[function(require,module,exports) {
 "use strict";
@@ -403,6 +408,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Sidebar = void 0;
 
+var _utils = require("../utils");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -423,11 +430,20 @@ function () {
     key: "init",
     value: function init() {
       this.$el.insertAdjacentHTML("afterbegin", this.template);
+      this.$el.addEventListener("submit", this.addBlock);
     }
   }, {
     key: "template",
     get: function get() {
-      return "<h1>template</h1>";
+      return [(0, _utils.block)("title"), (0, _utils.block)("text")].join("");
+    }
+  }, {
+    key: "addBlock",
+    value: function addBlock(event) {
+      event.preventDefault();
+      var type = event.target.name;
+      var value = event.target.value.value;
+      var styles = event.target.styles.value;
     }
   }]);
 
@@ -435,7 +451,7 @@ function () {
 }();
 
 exports.Sidebar = Sidebar;
-},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"../utils":"utils.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -550,7 +566,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59548" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57475" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
