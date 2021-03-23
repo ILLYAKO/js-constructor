@@ -49,4 +49,43 @@ SOLID
 1:31:10
 Side bar
 
-1:40:02
+1:40:01
+debugger
+
+1:53:55
+Deploy site on
+firebase.google.com
+
+1:55:52
+npm install -g firebase-tools
+1:56:59
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+firebase login
+
+delete folders
+.cache
+dist
+
+1:57:42
+npm run build
+
+firebase init
+
+()Hosting
+space and enter
+()Use an exist project
+What do you want to use as your public directory? dist
+Configure as a single-page app (rewrite all urls to /index.html)? y
+Set up automatic builds and deploys with GitHub? N
+ File dist/index.html already exists. Overwrite? N
+
+ firebase deploy
+Project Console: https://console.firebase.google.com/project/js-constructor-1542b/overview
+Hosting URL: https://js-constructor-1542b.web.app
+
+2:00:40
+after edit code:
+npm run build
+firebase deploy
