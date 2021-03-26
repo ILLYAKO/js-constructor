@@ -71,7 +71,7 @@ dist
 1:57:42
 npm run build
 
-firebase init
+firebase init.
 
 ()Hosting
 space and enter
